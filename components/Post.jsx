@@ -18,8 +18,9 @@ export const Post = ({title, imageUrl, date}) => {
 				source={{ uri: imageUrl }} 
 			/>
 			<PostDetails>
-				<PostTitle>{title}</PostTitle>
-				<PostDate>{date}</PostDate>
+				<PostTitle>{truncateTitle(title)}</PostTitle>
+				<PostDate>{new Date(date).toLocaleDateString()}</PostDate>
+				{/* date-fns => date-fns библиотека date-fns*/}
 			</PostDetails>
 		</PostView>
 	)
@@ -27,13 +28,19 @@ export const Post = ({title, imageUrl, date}) => {
 // Уже был styled Post и компонент post сверху, поэтому перемеиновал стайлед пост в пост вью
 // const Название компонента. styled используй view {обычный css}
 const PostView = styled.View`
+	margin: 5px;
 	flex-direction: row;
 	padding: 15px;
-	background-color: blue;
+	// background-color: blue;
 	border-radius: 30px;
+	
 	border-bottom-width: 2px;
 	border-bottom-color: rgba(0, 0, 0, 0.1);
 	border-bottom-style: solid;
+
+	border-top-width: 1px;
+	border-top-color: rgba(0, 0, 0, 0.1);
+	border-top-style: solid;
 `;
 const PostDetails = styled.View`
 	flex: 1;
@@ -44,17 +51,28 @@ const PostDetails = styled.View`
 const PostTitle = styled.Text`
 	font-size: 16px;
 	font-weight: 800;
+	line-height: 24px;
 `;
 const PostDate = styled.Text`
 	font-size: 12px;
 	color: rgba(0, 0, 0, 0.4);
 	margin-top: 2px;
+	text-align: right;
 `;
 
 // это уже не view и не text и нужно другой компонент
 const PostImage = styled.Image`
+	display: flex;
+	align-self: center;
 	width: 70px;
 	height: 70px;
-	margin-left: 12px;
 	border-radius: 15px;
+
 `;
+const truncateTitle = (str) => {
+	if (str.length >= 50) {
+		return str.substring(0, 50) + '...';
+	}
+	// если заголовок меньше 50, то он просто рендерится
+	return str;
+}
